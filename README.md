@@ -1,1 +1,3 @@
 # Alice-Holt-Forest-Heritage-Interpretation
+
+Welcome to the Alice Holt Forest Adventure Portal! This immersive website takes you on a journey through the rich history of Alice Holt Forest, offering engaging 360° videos and interactive quizzes that challenge your knowledge of the forest you're about to explore. The experience can only be unlocked by visiting the forest and scanning a unique QR code, ensuring an exciting and exclusive learning experience for visitors. Designed with kids in mind, the site provides a fun and educational preview of the forest, sparking curiosity and helping them connect with the natural wonders they’re about to discover. Get ready to learn, explore, and embark on an unforgettable adventure!
