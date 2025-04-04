@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>360° Forest Experience | Alice Holt</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Barlow+Condensed:wght@600&display=swap" rel="stylesheet">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <style>
+    body {
+      background: 
+        /* Leafy texture overlay */
+        url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M20 10 Q40 5 50 20 T80 30 Q70 40 60 50 T50 80 Q30 70 20 60 T10 30 Q15 20 20 10" fill="%234CAF50" opacity="0.1"/></svg>'),
+        /* Gradient base */
+        linear-gradient(135deg, #e9f5e9 0%, #f8fff8 100%);
+      background-size: 100px, auto;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #2a7a2e 0%, #328d35 100%);
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-bottom: 3px solid #1e5e21;
+}
+
+.title-container {
+  position: relative;
+  display: inline-block;
+  padding: 0 80px;
+  margin-bottom: 5px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  font-weight: 700;
+  font-family: 'Fredoka One', cursive;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+  color: #fff;
+  position: relative;
+  z-index: 2;
+}
+    
+    /* Deer Animation - Consistent across all pages */
+.deer-animation {
+  position: absolute;
+  width: 100px; 
+  height: 80px;
+  background: url('images/deer.gif') no-repeat center/contain;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  animation: deerRun 8s linear infinite;
+  opacity: 0.9;
+  z-index: 1;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+@keyframes deerRun {
+  0% { left: -10px; transform: translateY(-50%) scaleX(1); }
+  49% { opacity: 0.9; }
+  50% { left: calc(100% + 10px); transform: translateY(-50%) scaleX(1); opacity: 0; }
+  51% { left: -10px; transform: translateY(-50%) scaleX(1); opacity: 0; }
+  52% { opacity: 0.9; }
+  100% { left: calc(100% + 10px); transform: translateY(-50%) scaleX(1); }
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 50px;
+  max-width: 800px;
+  margin: 0 auto;
+  backdrop-filter: blur(5px);
+}
+    
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 8px 20px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+    
+nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+nav a.active {
+  background: white;
+  color: #2a7a2e;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+nav a.active::before {
+  background: #2a7a2e;
+  width: 60%;
+}
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Video Container Styles */
+    .video-section {
+      text-align: center;
+      margin: -1rem 0;
+      background-color: transparent;
+      padding: 5px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      background: linear-gradient(135deg, #4CAF50 0%, #2d572e 100%);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border: 2px solid #ffffff30;
+    }
+
+    .video-container a-scene {
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-section h2 {
+      color: #2d572e;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .video-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: #4CAF50;
+      border-radius: 3px;
+    }
+    
+    /* Gallery Styles */
+    .gallery-section {
+      margin: 4rem 0;
+      background-color: transparent;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-section::before {
+      content: '🌿';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      font-size: 8rem;
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .gallery-section h2 {
+      color: #2d572e;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gallery-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: #4CAF50;
+      border-radius: 3px;
+    }
+
+    .media-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .media-gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: all 0.4s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 2px solid #ffffff30;
+      background: linear-gradient(135deg, #4CAF50 0%, #2d572e 100%);
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    .media-gallery img:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      border-color: #ffffff60;
+    }
+
+    /* Add hover overlay effect */
+    .media-gallery .image-container {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .media-gallery .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(76, 175, 80, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .media-gallery .image-container:hover .image-overlay {
+      opacity: 1;
+    }
+
+    .media-gallery .overlay-icon {
+      color: white;
+      font-size: 2rem;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    /* ===== VIDEO CONTROLS ===== */
+    .video-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background: linear-gradient(to top, rgba(0,30,0,0.7), transparent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-container:hover .video-controls {
+      opacity: 1;
+    }
+
+    .control-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+
+    .control-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+
+    .control-btn i {
+      pointer-events: none;
+    }
+
+    .progress-container {
+      flex-grow: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #4CAF50, #8BC34A);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .progress-container:hover .progress-bar::after {
+      opacity: 1;
+    }
+
+    .time-display {
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      min-width: 100px;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    /* Ensure A-Frame canvas doesn't block controls */
+    .a-canvas {
+      position: static !important;
+      z-index: 1 !important;
+    }
+    
+    /* Footer */
+    footer {
+  background-color: #328d35; /* Match header color */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title-container">
+      <div class="deer-animation"></div>
+      <h1>Alice Holt Forest</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="videos.html">Gallery</a></li>
+        <li><a href="quiz/Quiz.html">Quiz Game</a></li>
+        <li><a href="social.html">Connect</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="video-section">
+      <h2>Immersive Forest Walk</h2>
+      <div class="video-container">
+        <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false">
+          <a-assets>
+            <video id="forest-video" autoplay loop crossorigin="anonymous"
+                   playsinline webkit-playsinline>
+              <!-- Replace with your actual video source-->
+              <source src="video/360 Video of Alice Holt Forest.mp4" type="video/mp4">
+            </video>
+          </a-assets>
+          <a-sky src="#forest-video" rotation="0 -90 0"></a-sky>
+          <a-camera>
+            <a-cursor></a-cursor>
+          </a-camera>
+          
+          <!-- Decorative forest elements -->
+          <a-entity position="0 -1 -3">
+            <a-circle 
+              color="#2d572e" 
+              radius="5" 
+              opacity="0.1" 
+              rotation="-90 0 0">
+            </a-circle>
+          </a-entity>
+        </a-scene>
+        
+        <div class="video-controls">
+          <button class="control-btn" id="playPauseBtn"><i class="fas fa-pause"></i></button>
+          <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <span class="time-display" id="timeDisplay">00:00 / 00:00</span>
+          <button class="control-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 20px; color: #2d572e; font-style: italic;">
+        <i class="fas fa-arrows-alt" style="margin: 0 5px;"></i>
+        Drag to explore every angle of the forest
+        <i class="fas fa-tree" style="margin: 0 5px;"></i>
+      </p>
+    </section>
+    
+    <section class="gallery-section">
+      <h2>Forest Gallery</h2>
+      <div class="media-gallery">
+  <a href="images/image1.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image1.jpeg" alt="Forest path in sunlight" loading="lazy">
+  </a>
+  <a href="images/image2.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image2.jpeg" alt="Canopy view" loading="lazy">
+  </a>
+  <a href="images/image3.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image3.jpeg" alt="Mossy trees" loading="lazy">
+  </a>
+  <a href="images/image4.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image4.jpeg" alt="Autumn colors" loading="lazy">
+  </a>
+  <a href="images/image5.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image6.jpeg" alt="Sunlight through leaves" loading="lazy">
+  </a>
+  <a href="images/image6.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image7.jpeg" alt="Forest stream" loading="lazy">
+  </a>
+  <a href="images/image7.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image8.jpeg" alt="Winter frost" loading="lazy">
+  </a>
+  <a href="images/image8.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image9.jpeg" alt="Ferns on forest floor" loading="lazy">
+  </a>
+  <a href="images/image9.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image10.jpg" alt="Tall pine trees" loading="lazy">
+  </a>
+  <a href="images/image10.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image11.jpg" alt="Foggy morning" loading="lazy">
+  </a>
+  <a href="images/image11.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image12.jpg" alt="Forest wildlife" loading="lazy">
+  </a>
+  <a href="images/image12.jpeg" target="_blank" rel="noopener noreferrer">
+    <img src="images/image13.jpg" alt="Mushrooms close-up" loading="lazy">
+  </a>
+        </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Alice Holt Forest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Video controls functionality
+      const videoContainer = document.querySelector('.video-container');
+      const htmlVideo = document.getElementById('forest-video');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const timeDisplay = document.getElementById('timeDisplay');
+      const progressBar = document.getElementById('progressBar');
+      const progressContainer = document.getElementById('progressContainer');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      
+      // Format time helper
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+      
+      // Update video controls
+      function updateControls() {
+        // Update play/pause button
+        playPauseBtn.innerHTML = htmlVideo.paused ? 
+          '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+        
+        // Update time display
+        timeDisplay.textContent = 
+          `${formatTime(htmlVideo.currentTime)} / ${formatTime(htmlVideo.duration)}`;
+        
+        // Update progress bar
+        const progressPercent = (htmlVideo.currentTime / htmlVideo.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+      }
+      
+      // Play/pause toggle
+      playPauseBtn.addEventListener('click', () => {
+        if (htmlVideo.paused) {
+          htmlVideo.play();
+        } else {
+          htmlVideo.pause();
+        }
+      });
+      
+      // Progress bar click
+      progressContainer.addEventListener('click', (e) => {
+        const rect = progressContainer.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        htmlVideo.currentTime = pos * htmlVideo.duration;
+      });
+      
+      // Fullscreen toggle
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          videoContainer.requestFullscreen().catch(err => {
+            console.error(`Error attempting to enable fullscreen: ${err.message}`);
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      });
+      
+      // Update controls on video events
+      htmlVideo.addEventListener('play', updateControls);
+      htmlVideo.addEventListener('pause', updateControls);
+      htmlVideo.addEventListener('timeupdate', updateControls);
+      htmlVideo.addEventListener('loadedmetadata', updateControls);
+      
+      // Handle autoplay restrictions
+      const playPromise = htmlVideo.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented
+          console.log('Autoplay prevented, showing fallback button');
+          const playBtn = document.createElement('button');
+          playBtn.innerHTML = '▶ Play 360 Video';
+          playBtn.style.position = 'absolute';
+          playBtn.style.top = '50%';
+          playBtn.style.left = '50%';
+          playBtn.style.transform = 'translate(-50%, -50%)';
+          playBtn.style.padding = '10px 20px';
+          playBtn.style.background = '#4CAF50';
+          playBtn.style.color = 'white';
+          playBtn.style.border = 'none';
+          playBtn.style.borderRadius = '5px';
+          playBtn.style.cursor = 'pointer';
+          playBtn.style.zIndex = '1000';
+          
+          playBtn.addEventListener('click', function() {
+            htmlVideo.play();
+            this.remove();
+          });
+          
+          videoContainer.appendChild(playBtn);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
